@@ -18,6 +18,35 @@ $SubscriptionName = "Subscription Name Here"
 $ResourceGroup = "Resource Group Name Here"
 $nsgName = "NSG Name Here"
 
+# Rule Variables
+
+# This is the Source IP address or subnet.  $SouceIPName is what the name will be.  Usually both values are the
+# same, however if your destination is any, you have to use an IP of an asterisk (*) and name it "any".
+$LocalIP = "172.25.165.69/32"
+$LocalIPName = "Astral"
+
+# This is the Destination IP address or subnet.  $DestinationIPName is what the name will be.  Usually both values are the
+# same, however if your destination is any, you have to use an IP of an asterisk (*) and name it "any".
+$RemoteIP = "167.89.115.53/32"
+$RemoteIPName = "SendGrid"
+
+# Port Number and port name.  Usually both values are the same, however if your Remote is any, you have to use 
+# an port of an asterisk (*) and name it "any".
+$Port = "587"
+$PortName = "SMTP"
+
+# Protocol and protocol name.  Usually both values are the same, however if your Remote is any, you have to use 
+# an protocol of an asterisk (*) and name it "any".
+$Protocol = "tcp"
+$ProtocolName = "tcp"
+
+#Inbound and outbound rule numbers.  Making the numbers the same is encouraged.
+$InboundPriority = "1890"
+$OutboundPriority = "1890"
+
+#Description used in both rules that will be created.
+$Description = "Astral to SendGrid."
+
 # Connect to Subscription
 Select-AzureRmSubscription -SubscriptionName $SubscriptionName
 
@@ -29,28 +58,29 @@ $nsg = Get-AzureRmNetworkSecurityGroup -ResourceGroupName $ResourceGroup -Name $
 # <agency identifier>-<access>-<source>-<source port>-<direction>-<protocol>-<destination port>-<destination>
 # See example below
 Add-AzureRmNetworkSecurityRuleConfig -NetworkSecurityGroup $nsg `
--Name mox-allow-209.208.245.115-any-inbound-any-22-172.25.164.5 `
--Description "Allow Moxie SFTP inbound to Server A" `
+-Name mox-allow-$RemoteIPName-any-inbound-$ProtocolName-$PortName-$LocalIPName `
+-Description "$Description" `
 -Access Allow `
--Protocol Tcp `
+-Protocol $Protocol `
 -Direction Inbound `
--Priority 3360 `
--SourceAddressPrefix 209.208.245.115/32 ` # This can also be an * for 'any'
--SourcePortRange * ` 
--DestinationAddressPrefix 172.25.164.5/32 ` # This can also be an * for 'any'
--DestinationPortRange 22
+-Priority $InboundPriority `
+-SourceAddressPrefix $RemoteIP `
+-SourcePortRange * `
+-DestinationAddressPrefix $LocalIP `
+-DestinationPortRange $Port
 
 Add-AzureRmNetworkSecurityRuleConfig -NetworkSecurityGroup $nsg `
--Name mox-allow-209.208.245.115-any-inbound-any-22-172.25.164.4 `
--Description "Allow Moxie SFTP inbound to Server B" `
+Add-AzureRmNetworkSecurityRuleConfig -NetworkSecurityGroup $nsg `
+-Name mox-allow-$LocalIPName-any-outbound-$ProtocolName-$PortName-$RemoteIPName `
+-Description "$Description" `
 -Access Allow `
--Protocol Tcp `
--Direction Inbound `
--Priority 3370 `
--SourceAddressPrefix 209.208.245.115/32 `
+-Protocol $Protocol `
+-Direction Outbound `
+-Priority $OutboundPriority `
+-SourceAddressPrefix $LocalIP `
 -SourcePortRange * `
--DestinationAddressPrefix 172.25.164.4/32 `
--DestinationPortRange 22
+-DestinationAddressPrefix $RemoteIP `
+-DestinationPortRange $Port
 
 #Use this template to edit an existing rule.  Very handy since you can't edit some fields in the portal.
 #Set-AzureRmNetworkSecurityRuleConfig -NetworkSecurityGroup $nsg `
