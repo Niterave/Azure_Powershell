@@ -20,15 +20,16 @@ $nsgName = "NSG Name Here"
 
 # Rule Variables
 
-# This is the Source IP address or subnet.  $SouceIPName is what the name will be.  Usually both values are the
-# same, however if your destination is any, you have to use an IP of an asterisk (*) and name it "any".
-$LocalIP = "172.25.165.69/32"
-$LocalIPName = "Astral"
+# This is the Source IP address or subnet.  $LocalIPName is what the name will be.  Usually both values are the
+# same, however if your destination is any, you have to use an IP of an asterisk (*) and name it "any".  The $LocalIPName
+# will be used to name the rule.
+$LocalIP = "xxx.xxx.xxx.xxx/32"
+$LocalIPName = "Meaningful_Name"
 
 # This is the Destination IP address or subnet.  $DestinationIPName is what the name will be.  Usually both values are the
 # same, however if your destination is any, you have to use an IP of an asterisk (*) and name it "any".
-$RemoteIP = "167.89.115.53/32"
-$RemoteIPName = "SendGrid"
+$RemoteIP = "xxx.xxx.xxx.xxx/32"
+$RemoteIPName = "Meaningful_Name"
 
 # Port Number and port name.  Usually both values are the same, however if your Remote is any, you have to use 
 # an port of an asterisk (*) and name it "any".
@@ -45,7 +46,7 @@ $InboundPriority = "1890"
 $OutboundPriority = "1890"
 
 #Description used in both rules that will be created.
-$Description = "Astral to SendGrid."
+$Description = "Meaningful_Description."
 
 # Connect to Subscription
 Select-AzureRmSubscription -SubscriptionName $SubscriptionName
