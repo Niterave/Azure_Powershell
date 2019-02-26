@@ -1,6 +1,6 @@
 # Network Security Group (NSG) Rule(s) Add/Edit template
 # Taken from https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-manage-nsg-arm-ps
-# Composed by Matt Richardson | Cloud Solutions Architect | Moxie | matt.richardson@moxieusa.com
+# Composed by Matt Richardson | Cloud Solutions Architect | Moxie | matt.richardson (at) moxieusa.com
 # 
 # Pre-requisites: An understanding of NSG Inbound/Outbound rules and how they work:
 # https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-nsg
